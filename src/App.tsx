@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 import { useAppDispatch, useAppSelector } from './hooks/hooks'
 import { decrement, increment, amountAdded } from './features/counter/counterSlice'
+import { useFetchBreedsQuery } from './features/dogs/dosgApiSlice'
 
 function App() {
   const count = useAppSelector(state => state.counter.value);
@@ -10,6 +11,8 @@ function App() {
 
   const handleClick = () => dispatch(increment())
   const handleAddAmount = () => dispatch(amountAdded(10))
+
+  const {data = [], isFetching, isError} = useFetchBreedsQuery();
 
   return (
     <div className="App">
@@ -26,9 +29,26 @@ function App() {
             count is added with amount of 10: {count}
           </button>
         </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
+        <div>
+          <p>
+            Number of Dogs fetch: {data.length}
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Picture</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map(breed => (
+                <tr key={breed.id}>
+                  <td>{breed.name}</td>
+                  <td><img src={breed.image.url} alt={breed.name} height={250}/></td>
+                </tr>))}
+            </tbody>
+          </table>
+        </div>
         <p>
           <a
             className="App-link"
