@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import { useAppDispatch, useAppSelector } from './hooks/hooks'
-import { decrement, increment } from './features/counter/counterSlice'
+import { decrement, increment, amountAdded } from './features/counter/counterSlice'
 
 function App() {
   const count = useAppSelector(state => state.counter.value);
   const dispatch = useAppDispatch();
 
   const handleClick = () => dispatch(increment())
+  const handleAddAmount = () => dispatch(amountAdded(10))
 
   return (
     <div className="App">
@@ -18,6 +19,11 @@ function App() {
         <p>
           <button type="button" onClick={handleClick}>
             count is: {count}
+          </button>
+        </p>
+        <p>
+          <button type="button" onClick={handleAddAmount}>
+            count is added with amount of 10: {count}
           </button>
         </p>
         <p>
